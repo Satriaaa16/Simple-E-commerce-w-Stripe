@@ -1,25 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const About = () => {
   const teamMembers = [
-    { nim: '3337220055', name: 'Rian Parlindungan' },
-    { nim: '3337220056', name: 'Andrew Haris Erianto' },
-    { nim: '3337220087', name: 'Satria Khaylan Alg' },
-    { nim: '3337220105', name: 'Al Adzimu Sultanika' },
-    { nim: '3337220112', name: 'Raja Rafi Rabbani' },
+    { nim: '3337220055', name: 'Rian Parlindungan', Occupation: 'Frontend' },
+    { nim: '3337220056', name: 'Andrew Haris Erianto', Occupation: 'Frontend' },
+    { nim: '3337220087', name: 'Satria Khaylan Alg', Occupation: 'Backend' },
+    { nim: '3337220105', name: 'Al Adzimu Sultanika', Occupation: 'Laporan' },
+    { nim: '3337220112', name: 'Raja Rafi Rabbani', Occupation: 'Laporan' },
   ];
+
+  const [hoveredElement, setHoveredElement] = useState(null);
+
+  const handleMouseEnter = (elementName) => {
+    setHoveredElement(elementName);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredElement(null);
+  };
 
   return (
     <div style={styles.container}>
       <div style={styles.backgroundLeft}></div>
       <div style={styles.backgroundRight}></div>
-      <div style={styles.content}>
+      <div style={{ ...styles.content, boxShadow: hoveredElement === 'content' ? '0 8px 16px rgba(0, 0, 0, 0.3)' : '0 4px 8px rgba(0, 0, 0, 0.2)' }}
+        onMouseEnter={() => handleMouseEnter('content')} onMouseLeave={handleMouseLeave}>
         <h1 style={styles.title}>Meet My Team</h1>
         <div style={styles.teamList}>
           {teamMembers.map((member, index) => (
-            <div key={index} style={styles.memberCard}>
+            <div key={index} style={{ ...styles.memberCard, boxShadow: hoveredElement === `member${index}` ? '0 8px 16px rgba(0, 0, 0, 0.3)' : '0 4px 8px rgba(0, 0, 0, 0.2)' }}
+              onMouseEnter={() => handleMouseEnter(`member${index}`)} onMouseLeave={handleMouseLeave}>
               <h3>{member.name}</h3>
               <p>NIM: {member.nim}</p>
+              <p>Occupation: {member.Occupation}</p>
             </div>
           ))}
         </div>
@@ -62,8 +75,8 @@ const styles = {
     padding: '20px',
     backgroundColor: '#f5f5f5',
     borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     zIndex: 1, // Ensure content is above backgrounds
+    transition: 'box-shadow 0.3s ease-out',
   },
   title: {
     fontSize: '36px',
@@ -79,9 +92,10 @@ const styles = {
   memberCard: {
     padding: '20px',
     backgroundColor: '#ffffff',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     borderRadius: '8px',
     textAlign: 'center',
+    transition: 'box-shadow 0.3s ease-out',
   },
 };
 
